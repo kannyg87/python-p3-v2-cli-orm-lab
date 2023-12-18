@@ -173,6 +173,17 @@ class Employee:
 
         row = CURSOR.execute(sql, (id,)).fetchone()
         return cls.instance_from_db(row) if row else None
+    
+    @classmethod
+    def find_by_id_all(cls, id):
+        sql = """
+            SELECT *
+            FROM employees
+            WHERE department_id = ?
+        """
+        rows = CURSOR.execute(sql, (id,)).fetchall()
+        return [cls.instance_from_db(row) for row in rows] if rows else None
+
 
     @classmethod
     def find_by_name(cls, name):
